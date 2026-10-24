@@ -36,6 +36,8 @@ RUN apt-get update \
 
 COPY --chown=www-data:www-data htdocs/ /var/www/html/
 
+COPY --chown=www-data:www-data deployment/install.forced.php /var/www/html/install/install.forced.php
+
 RUN mkdir -p /var/www/documents \
 	&& chown www-data:www-data /var/www/documents /var/www/html/conf
 

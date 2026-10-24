@@ -57,7 +57,26 @@ From the root of your Dolibarr source checkout, build and publish the applicatio
 
 Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately.
 
-This fork brands the application as **PrimeLink ERPs** and uses the supplied Prime Link Technologies logo as the default login and public-page logo. Set the company's legal name and upload its business logo in the Dolibarr company setup after installation.
+This fork brands the application as **PrimeLink ERPs** and uses the supplied Prime Link Technologies logo as the default login and public-page logo. Fresh installs also preselect the supermarket modules for checkout, stock, purchasing, barcode scanning, lot/expiry tracking, and margin reporting. Set the company's legal name and upload its business logo in the Dolibarr company setup after installation.
+
+### Supermarket setup
+
+The module preset is applied only when creating a new database. For an existing Dolibarr database, enable the required modules under **Home → Setup → Modules/Applications**:
+
+- **TakePOS**, **Products**, **Categories**, **Bank/Cash**, and **Customer invoices** for checkout.
+- **Stock**, **Barcode**, **Product lots/serial numbers**, **Supplier management**, **Supplier receptions**, **Customer orders**, and **Shipments** for store and back-office operations.
+- **Proposals** and **Margins** for sales and profitability reporting.
+
+Then configure the store before trading:
+
+1. Create a warehouse for each store or stock location. Load product opening balances through the inventory workflow.
+2. Create product categories, units, VAT rates, retail prices, and product barcodes. Test barcode scanning with the actual scanner in the POS terminal.
+3. Enable batch/lot tracking only on perishable products that need traceability; capture sell-by/eat-by dates when receiving stock and rotate short-dated stock using the lot lists.
+4. Create supplier records and use supplier orders and receptions to record deliveries before updating stock. Enter supplier invoices separately for accounts payable.
+5. Configure a TakePOS terminal, receipt/printer and permitted payment methods. Assign cashiers the required POS rights and run a test sale, refund/credit, and end-of-day cash check before live use.
+6. Review product stock alerts and sales/margin statistics routinely. Restrict price changes, discounts, stock corrections and refunds to authorized users.
+
+Dolibarr does not implement supermarket-specific food-safety procedures automatically: configure lot traceability for applicable products and follow local rules for recalls, expiry handling, tax, receipts, and accounting.
 
 ## For a more robust or a production usage
 
