@@ -57,6 +57,22 @@ From the root of your Dolibarr source checkout, build and publish the applicatio
 
 Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately. At startup, the container ensures the configuration volume and any existing `conf.php` are writable by Dolibarr's Apache user; do not make the configuration directory world-writable.
 
+#### Running on Render Free without a persistent disk
+
+Render Free services have an ephemeral filesystem. To preserve database connectivity across restarts without a paid disk, configure these web-service environment variables. When `DOLI_DB_HOST` is set, the container regenerates `conf.php` from these values at every startup:
+
+- `DOLI_DB_TYPE`: `pgsql` for Render Postgres.
+- `DOLI_DB_HOST`: Render Postgres **Internal Hostname**.
+- `DOLI_DB_PORT`: Render Postgres port (usually `5432`).
+- `DOLI_DB_NAME`: Render Postgres **Database** value.
+- `DOLI_DB_USER`: Render Postgres **Username**.
+- `DOLI_DB_PASSWORD`: Render Postgres **Password**; mark it secret in Render.
+- `DOLI_INSTANCE_UNIQUE_ID`: a stable 64-character hexadecimal secret. Generate once with `openssl rand -hex 32` and keep the same value across deploys.
+- `DOLI_DB_PREFIX`: optional; defaults to `llx_`.
+- `DOLI_URL_ROOT`: optional; defaults to automatic URL detection.
+
+Use these settings with the existing database after a restart; do not repeatedly run Fresh install against an initialized database. This preserves the database connection configuration, but files under `/var/www/documents` remain ephemeral on Render Free and can be lost on restart. This approach is suitable for demos, not production or durable user uploads.
+
 This fork brands the application as **PrimeLink ERPs** and uses the supplied Prime Link Technologies logo as the default login and public-page logo. Fresh installs also preselect the supermarket modules for checkout, stock, purchasing, barcode scanning, lot/expiry tracking, and margin reporting. Set the company's legal name and upload its business logo in the Dolibarr company setup after installation.
 
 ### Supermarket setup
