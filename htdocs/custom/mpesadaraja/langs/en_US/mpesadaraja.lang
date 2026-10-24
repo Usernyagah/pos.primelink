@@ -23,3 +23,6 @@ MpesadarajaStatusUnavailable=Could not check the payment status. The invoice has
 MpesadarajaPaymentNotAuthorized=M-Pesa payment is not authorized for this sale.
 MpesadarajaConfirmationRequired=A confirmed M-Pesa transaction is required.
 MpesadarajaVerificationFailed=The M-Pesa payment could not be verified. Check its status before retrying.
+MpesadarajaEnableCashierMode=Use supermarket cashier layout
+MpesadarajaDisableCashierMode=Use standard POS layout
+MpesadarajaScanSearchPlaceholder=Scan barcode or search products

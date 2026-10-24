@@ -64,6 +64,34 @@ class ActionsMpesadaraja extends CommonHookActions
 	}
 
 	/**
+	 * Add a per-terminal toggle for the supermarket cashier layout.
+	 *
+	 * @param array<string,mixed> $parameters Hook parameters.
+	 * @param ?CommonObject $object Current object.
+	 * @param string $action Current action.
+	 * @return int
+	 */
+	public function ActionButtons($parameters, &$object, &$action): int
+	{
+		global $langs, $user;
+
+		if (!isModEnabled('mpesadaraja') || !$user->hasRight('takepos', 'run')) {
+			return 0;
+		}
+
+		$langs->load('mpesadaraja@mpesadaraja');
+		$this->results[] = array(
+			array(
+				'title' => '<span class="fa fa-cash-register paddingrightonly"></span><div class="trunc" id="mpesa-cashier-mode-label" data-enable-label="'.dol_escape_htmltag($langs->trans('MpesadarajaEnableCashierMode')).'" data-disable-label="'.dol_escape_htmltag($langs->trans('MpesadarajaDisableCashierMode')).'" data-scan-placeholder="'.dol_escape_htmltag($langs->trans('MpesadarajaScanSearchPlaceholder')).'" data-standard-placeholder="'.dol_escape_htmltag($langs->trans('Search')).'">'.$langs->trans('MpesadarajaEnableCashierMode').'</div>',
+				'action' => 'MpesaToggleCashierMode();',
+				'class' => 'mpesa-cashier-mode-toggle'
+			)
+		);
+
+		return 0;
+	}
+
+	/**
 	 * Require an approved Daraja callback before TakePOS records an M-Pesa payment.
 	 *
 	 * @param array<string,mixed> $parameters Hook parameters.
