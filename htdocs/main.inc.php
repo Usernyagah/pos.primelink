@@ -305,8 +305,17 @@ if (!defined('NOREQUIREAJAX')) {
 	require_once DOL_DOCUMENT_ROOT.'/core/lib/ajax.lib.php'; // Need 22ko memory
 }
 
+// If the installer is locked, never bounce the user back to /install.
+// A stale MAIN_NOT_INSTALLED flag (or a version check) plus install.lock is a redirect loop:
+// the application sends the browser to the installer, and the installer only offers a link back.
+$installlockexists = (defined('DOL_DATA_ROOT') && @file_exists(DOL_DATA_ROOT.'/install.lock'))
+	|| (defined('DOL_DOCUMENT_ROOT') && @file_exists(DOL_DOCUMENT_ROOT.'/install.lock'));
+$upgradeunlockexists = (defined('DOL_DATA_ROOT') && @file_exists(DOL_DATA_ROOT.'/upgrade.unlock'))
+	|| (defined('DOL_DOCUMENT_ROOT') && @file_exists(DOL_DOCUMENT_ROOT.'/upgrade.unlock'));
+$installpageslocked = $installlockexists && !$upgradeunlockexists;
+
 // If install or upgrade process not done or not completely finished, we call the install page.
-if (getDolGlobalString('MAIN_NOT_INSTALLED') || getDolGlobalString('MAIN_NOT_UPGRADED')) {
+if (!$installpageslocked && (getDolGlobalString('MAIN_NOT_INSTALLED') || getDolGlobalString('MAIN_NOT_UPGRADED'))) {
 	dol_syslog("main.inc: A previous install or upgrade was not complete. Redirect to install page.", LOG_WARNING);
 	header("Location: ".DOL_URL_ROOT."/install/index.php");
 	exit;
@@ -331,10 +340,12 @@ if ($checkifupgraderequired && !defined('MAIN_VERSION_DISABLE_DB_CHECK')) {
 			dol_syslog("main.inc: database version ".$versiontocompare." is lower than programs version ".DOL_VERSION.". Redirect to install/upgrade page.", LOG_WARNING);
 			if (php_sapi_name() === "cli") {
 				print "main.inc: database version ".$versiontocompare." is lower than programs version ".DOL_VERSION.". Try to run upgrade process.\n";
-			} else {
-				header("Location: ".DOL_URL_ROOT."/install/index.php");
+				exit;
 			}
-			exit;
+			if (!$installpageslocked) {
+				header("Location: ".DOL_URL_ROOT."/install/index.php");
+				exit;
+			}
 		}
 	}
 }

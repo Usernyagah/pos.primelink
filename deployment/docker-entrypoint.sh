@@ -78,6 +78,56 @@ if (file_put_contents($temporaryFile, $contents, LOCK_EX) === false || !rename($
 	file_put_contents('php://stderr', "ERROR: unable to write the Dolibarr configuration file.\n");
 	exit(1);
 }
+
+$dataDir = '/var/www/documents';
+if (!is_dir($dataDir)) {
+	@mkdir($dataDir, 0775, true);
+}
+@chown($dataDir, 'www-data');
+@chgrp($dataDir, 'www-data');
+
+$lockFile = $dataDir.'/install.lock';
+$forceLock = in_array(strtolower((string) getenv('DOLI_LOCK_INSTALL')), array('1', 'true', 'yes', 'on'), true);
+$unlockUpgrade = in_array(strtolower((string) getenv('DOLI_UNLOCK_UPGRADE')), array('1', 'true', 'yes', 'on'), true);
+
+if ($unlockUpgrade) {
+	@file_put_contents($dataDir.'/upgrade.unlock', "Unlocked for upgrade by container entrypoint on ".date('c'));
+	@chown($dataDir.'/upgrade.unlock', 'www-data');
+}
+
+$isInstalled = false;
+if ($forceLock) {
+	$isInstalled = true;
+} else {
+	try {
+		$driver = $settings['DOLI_DB_TYPE'] === 'mysqli' ? 'mysql' : 'pgsql';
+		$dsn = $driver.':host='.$settings['DOLI_DB_HOST'].';port='.$settings['DOLI_DB_PORT'].';dbname='.$settings['DOLI_DB_NAME'];
+		$pdo = new PDO($dsn, $settings['DOLI_DB_USER'], $settings['DOLI_DB_PASSWORD'], array(
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
+			PDO::ATTR_TIMEOUT => 5,
+		));
+
+		$checkTable = $settings['DOLI_DB_PREFIX'].'user';
+		$stmt = $pdo->query("SELECT 1 FROM ".$checkTable." LIMIT 1");
+		if ($stmt !== false) {
+			$isInstalled = true;
+
+			// Clean up stale MAIN_NOT_INSTALLED flag to prevent redirect loops
+			$constTable = $settings['DOLI_DB_PREFIX'].'const';
+			$pdo->exec("DELETE FROM ".$constTable." WHERE name = 'MAIN_NOT_INSTALLED'");
+		}
+	} catch (Throwable $e) {
+		// Do not fail container startup if database check encounters an error
+	}
+}
+
+if ($isInstalled && !file_exists($lockFile)) {
+	if (file_put_contents($lockFile, "This is a lock file to prevent use of install pages (created by container entrypoint on ".date('c').")\n") !== false) {
+		@chmod($lockFile, 0444);
+		@chown($lockFile, 'www-data');
+		@chgrp($lockFile, 'www-data');
+	}
+}
 PHP
 elif [ ! -e "$conf_file" ] || [ "$(wc -c < "$conf_file")" -le 8 ]; then
 	cat > "$conf_file" <<'EOF'
@@ -91,6 +141,22 @@ fi
 if [ -f "${conf_file}.tmp" ]; then
 	rm -f "${conf_file}.tmp"
 fi
+
+data_dir=/var/www/documents
+mkdir -p "$data_dir"
+chown www-data:www-data "$data_dir"
+chmod 775 "$data_dir"
+
+case "${DOLI_LOCK_INSTALL:-}" in
+	1|true|TRUE|yes|YES|on|ON)
+		lock_file="${data_dir}/install.lock"
+		if [ ! -f "$lock_file" ]; then
+			echo "Locked by container entrypoint" > "$lock_file"
+			chmod 444 "$lock_file"
+			chown www-data:www-data "$lock_file"
+		fi
+		;;
+esac
 
 chown www-data:www-data "$conf_file"
 chmod u+rw "$conf_file"
