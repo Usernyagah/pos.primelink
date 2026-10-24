@@ -37,10 +37,16 @@ RUN apt-get update \
 COPY --chown=www-data:www-data htdocs/ /var/www/html/
 
 COPY --chown=www-data:www-data deployment/install.forced.php /var/www/html/install/install.forced.php
+COPY deployment/docker-entrypoint.sh /usr/local/bin/primelink-entrypoint
 
 RUN mkdir -p /var/www/documents \
-	&& chown www-data:www-data /var/www/documents /var/www/html/conf
+	&& chown www-data:www-data /var/www/documents /var/www/html/conf \
+	&& chmod 755 /usr/local/bin/primelink-entrypoint
 
 VOLUME ["/var/www/documents", "/var/www/html/conf"]
+
+ENTRYPOINT ["/usr/local/bin/primelink-entrypoint"]
+
+CMD ["apache2-foreground"]
 
 EXPOSE 80

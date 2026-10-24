@@ -55,7 +55,7 @@ From the root of your Dolibarr source checkout, build and publish the applicatio
 	docker build -t ghcr.io/usernyagah/pos.primelink:25.0.0-alpha .
 	docker push ghcr.io/usernyagah/pos.primelink:25.0.0-alpha
 
-Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately.
+Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately. At startup, the container ensures the configuration volume and any existing `conf.php` are writable by Dolibarr's Apache user; do not make the configuration directory world-writable.
 
 This fork brands the application as **PrimeLink ERPs** and uses the supplied Prime Link Technologies logo as the default login and public-page logo. Fresh installs also preselect the supermarket modules for checkout, stock, purchasing, barcode scanning, lot/expiry tracking, and margin reporting. Set the company's legal name and upload its business logo in the Dolibarr company setup after installation.
 
