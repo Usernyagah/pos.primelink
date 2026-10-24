@@ -2981,9 +2981,9 @@ function htmlPrintOnlineHeader($mysoc, $langs, $showlogo = 1, $alttext = '', $su
 		} elseif (!empty($mysoc->logo) && is_readable($conf->mycompany->dir_output . '/logos/' . $logo)) {
 			//$urllogo = DOL_URL_ROOT.'/viewimage.php?cache=1&amp;modulepart=mycompany&amp;file='.urlencode('logos/'.$logo);
 			$urllogopublic = $dolibarr_main_url_root . '/viewimage.php?modulepart=mycompany&entity=' . $conf->entity . '&file=' . urlencode('logos/' . $logo);
-		} elseif (is_readable(DOL_DOCUMENT_ROOT . '/theme/dolibarr_logo.svg')) {
-			//$urllogo = DOL_URL_ROOT.'/theme/dolibarr_logo.svg';
-			$urllogopublic = $dolibarr_main_url_root . '/theme/dolibarr_logo.svg';
+		} elseif (is_readable(DOL_DOCUMENT_ROOT . '/theme/primelink_logo.png')) {
+			//$urllogo = DOL_URL_ROOT.'/theme/primelink_logo.png';
+			$urllogopublic = $dolibarr_main_url_root . '/theme/primelink_logo.png';
 		}
 	}
 

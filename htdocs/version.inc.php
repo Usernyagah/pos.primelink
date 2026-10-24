@@ -33,7 +33,7 @@
  */
 
 if (!defined('DOL_APPLICATION_TITLE')) {
-	define('DOL_APPLICATION_TITLE', 'Dolibarr');
+	define('DOL_APPLICATION_TITLE', 'PrimeLink ERPs');
 }
 
 // The major version of Dolibarr

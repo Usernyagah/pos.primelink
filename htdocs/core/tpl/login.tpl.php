@@ -161,11 +161,7 @@ if ($applicationcustom) {
 }
 
 // We define login title
-if ($applicationcustom) {
-	$titleofloginpage = $langs->trans('Login').' '.$application;
-} else {
-	$titleofloginpage = $langs->trans('Login');
-}
+$titleofloginpage = $langs->trans('Login').' '.$application;
 // Title of HTML page must have pattern ' @ (?:Doli[a-zA-Z]+ |)(\\d+)\\.(\\d+)\\.([^\\s]+)' to be detected as THE login page by webviews.
 $titleofloginpage .= ' @ '.$titletruedolibarrversion; // $titletruedolibarrversion is defined by dol_loginfunction in security2.lib.php. We must keep the @, some tools use it to know it is login page and find true dolibarr version.
 

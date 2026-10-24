@@ -578,7 +578,7 @@ function pHeader($subtitle, $next, $action = 'set', $param = '', $forcejqueryurl
 	print '<head>'."\n";
 	print '<meta charset="'.$conf->file->character_set_client.'">'."\n";
 	print '<meta name="viewport" content="width=device-width, initial-scale=1.0">'."\n";
-	print '<meta name="generator" content="Dolibarr installer">'."\n";
+	print '<meta name="generator" content="'.DOL_APPLICATION_TITLE.' installer">'."\n";
 	print '<link rel="stylesheet" type="text/css" href="default.css">'."\n";
 	print '<link rel="stylesheet" type="text/css" href="../public/theme/common/fontawesome-5/css/all.min.css?layout=classic">'."\n";
 
@@ -601,13 +601,14 @@ function pHeader($subtitle, $next, $action = 'set', $param = '', $forcejqueryurl
 		print '<script type="text/javascript" src="../public/includes/jquery/js/jquery-ui.min.js"></script>'."\n";
 	}
 
-	print '<title>'.$langs->trans("DolibarrSetup").'</title>'."\n";
+	$installertitle = str_replace('Dolibarr', DOL_APPLICATION_TITLE, $langs->trans("DolibarrSetup"));
+	print '<title>'.$installertitle.'</title>'."\n";
 	print '</head>'."\n";
 
 	print '<body>'."\n";
 
 	print '<div class="divlogoinstall" style="text-align:center">';
-	print '<img class="imglogoinstall" src="../theme/dolibarr_logo.svg" alt="Dolibarr logo" width="300px"><br>';
+	print '<img class="imglogoinstall" src="../theme/primelink_logo.png" alt="'.DOL_APPLICATION_TITLE.' logo" width="300px"><br>';
 	print '<span class="opacitymedium">'.DOL_VERSION.'</span>';
 	print '</div><br>';
 
@@ -615,7 +616,7 @@ function pHeader($subtitle, $next, $action = 'set', $param = '', $forcejqueryurl
 	if ($subtitle) {
 		print $subtitle;
 	} else {
-		print $langs->trans("DolibarrSetup");
+		print $installertitle;
 	}
 	print '</span>'."\n";
 

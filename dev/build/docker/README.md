@@ -57,6 +57,8 @@ From the root of your Dolibarr source checkout, build and publish the applicatio
 
 Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately.
 
+This fork brands the application as **PrimeLink ERPs** and uses the supplied Prime Link Technologies logo as the default login and public-page logo. Set the company's legal name and upload its business logo in the Dolibarr company setup after installation.
+
 ## For a more robust or a production usage
 
 If you want to execute an official Docker package, you can find it and read the doc on 
