@@ -69,7 +69,7 @@ Render Free services have an ephemeral filesystem. To preserve database connecti
 - `DOLI_DB_PASSWORD`: Render Postgres **Password**; mark it secret in Render.
 - `DOLI_INSTANCE_UNIQUE_ID`: a stable 64-character hexadecimal secret. Generate once with `openssl rand -hex 32` and keep the same value across deploys.
 - `DOLI_DB_PREFIX`: optional; defaults to `llx_`.
-- `DOLI_URL_ROOT`: optional; defaults to automatic URL detection.
+- `DOLI_URL_ROOT`: optional; set it to the public HTTPS service URL (for example, `https://your-service.onrender.com`). If omitted, the container uses Render's `RENDER_EXTERNAL_URL`.
 
 Use these settings with the existing database after a restart; do not repeatedly run Fresh install against an initialized database. This preserves the database connection configuration, but files under `/var/www/documents` remain ephemeral on Render Free and can be lost on restart. This approach is suitable for demos, not production or durable user uploads.
 

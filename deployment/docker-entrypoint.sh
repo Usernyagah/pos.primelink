@@ -29,7 +29,7 @@ foreach ($required as $name) {
 $settings['DOLI_DB_TYPE'] = getenv('DOLI_DB_TYPE') ?: 'pgsql';
 $settings['DOLI_DB_PREFIX'] = getenv('DOLI_DB_PREFIX') ?: 'llx_';
 $settings['DOLI_DB_PORT'] = getenv('DOLI_DB_PORT') ?: ($settings['DOLI_DB_TYPE'] === 'mysqli' ? '3306' : '5432');
-$settings['DOLI_URL_ROOT'] = getenv('DOLI_URL_ROOT') ?: '';
+$settings['DOLI_URL_ROOT'] = getenv('DOLI_URL_ROOT') ?: (getenv('RENDER_EXTERNAL_URL') ?: '');
 
 $invalidSettings = array();
 if (!in_array($settings['DOLI_DB_TYPE'], array('pgsql', 'mysqli'), true)) {
@@ -44,10 +44,14 @@ if (!preg_match('/^[a-z0-9]+_$/i', $settings['DOLI_DB_PREFIX'])) {
 if (!preg_match('/^[a-f0-9]{64}$/i', $settings['DOLI_INSTANCE_UNIQUE_ID'])) {
 	$invalidSettings[] = 'DOLI_INSTANCE_UNIQUE_ID (must be 64 hexadecimal characters)';
 }
+if (!filter_var($settings['DOLI_URL_ROOT'], FILTER_VALIDATE_URL)) {
+	$invalidSettings[] = 'DOLI_URL_ROOT (set it to the public HTTPS URL of this service)';
+}
 if (!empty($invalidSettings)) {
 	file_put_contents('php://stderr', "ERROR: invalid Dolibarr environment settings: ".implode('; ', $invalidSettings).".\n");
 	exit(1);
 }
+$settings['DOLI_URL_ROOT'] = rtrim($settings['DOLI_URL_ROOT'], '/');
 
 $config = array(
 	'dolibarr_main_url_root' => $settings['DOLI_URL_ROOT'],
