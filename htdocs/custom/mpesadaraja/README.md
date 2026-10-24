@@ -2,8 +2,6 @@
 
 This external Dolibarr module adds a Daraja STK Push option to the TakePOS payment popup. The invoice is paid through Dolibarr's regular TakePOS payment flow only after a matching successful Daraja callback has been received and independently verified with Daraja. Each confirmation can be used only once.
 
-The module also adds an optional supermarket cashier layout in TakePOS. Use the cashier layout button in the POS action panel to switch layouts; the choice is saved separately for each terminal in that browser. The layout emphasizes barcode scanning and product lookup while retaining the normal basket, keypad, products, and payment actions.
-
 ## Requirements
 
 - Dolibarr 20.0 or later and PHP 8.1 or later.

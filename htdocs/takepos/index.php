@@ -647,6 +647,10 @@ function ClickProduct(position, qty = 1, qty_std = 0) {
 			// Call page invoice.php to generate the section with product lines
 			  $("#poslines").load("invoice.php?action=addline&token=<?php echo currentToken(); ?>&place="+place+"&idproduct="+idproduct+"&selectedline="+selectedline+"&qty="+qty+"&invoiceid="+invoiceid+(qty_std_inner ? '&qty_std=1' : ''), function() {
 				idproduct = "";
+				var searchField = $("#search");
+				if (searchField.length) {
+					searchField.focus().select();
+				}
 				<?php if (getDolGlobalString('TAKEPOS_CUSTOMER_DISPLAY')) {
 					echo "CustomerDisplay();";
 				}?>
@@ -1416,7 +1420,7 @@ if (!getDolGlobalString('TAKEPOS_HIDE_HEAD_BAR')) {
 				if ($reshook == 0) {  //Search method
 					?>
 					<div class="login_block_other takepos">
-					<input type="text" id="search" name="search" class="input-nobottom" onkeyup="Search2(<?php echo "'".dol_escape_js($keyCodeForEnter)."'" ; ?>, null);" placeholder="<?php echo dol_escape_htmltag($langs->trans("Search")); ?>" autofocus>
+					<input type="text" id="search" name="search" class="input-nobottom" onkeyup="Search2(<?php echo "'".dol_escape_js($keyCodeForEnter)."'" ; ?>, null);" placeholder="<?php echo dol_escape_htmltag($langs->trans("Search").' / '.$langs->trans("Barcode")); ?>" autofocus>
 					<a onclick="ClearSearch(false);" class="nohover"><span class="fa fa-backspace"></span></a>
 					<a href="<?php echo DOL_URL_ROOT.'/'; ?>" target="backoffice" rel="opener"><!-- we need rel="opener" here, we are on same domain and we need to be able to reuse this tab several times -->
 					<span class="fas fa-home"></span></a>
@@ -1795,7 +1799,7 @@ if ($reshook == 0) {  //add buttons
 		if (getDolGlobalString('TAKEPOS_HIDE_HEAD_BAR') && !getDolGlobalString('TAKEPOS_HIDE_SEARCH')) {
 			print '<!-- Show the search input text -->'."\n";
 			print '<div class="margintoponly">';
-			print '<input type="text" id="search" class="input-search-takepos input-nobottom" name="search" onkeyup="Search2(\''.dol_escape_js($keyCodeForEnter).'\', null);" style="width: 80%; width:calc(100% - 51px); font-size: 150%;" placeholder="'.dol_escape_htmltag($langs->trans("Search")).'" autofocus> ';
+			print '<input type="text" id="search" class="input-search-takepos input-nobottom" name="search" onkeyup="Search2(\''.dol_escape_js($keyCodeForEnter).'\', null);" style="width: 80%; width:calc(100% - 51px); font-size: 150%;" placeholder="'.dol_escape_htmltag($langs->trans("Search").' / '.$langs->trans("Barcode")).'" autofocus> ';
 			print '<a class="marginleftonly hideonsmartphone" onclick="ClearSearch(false);">'.img_picto('', 'searchclear.png').'</a>';
 			print '</div>';
 		}

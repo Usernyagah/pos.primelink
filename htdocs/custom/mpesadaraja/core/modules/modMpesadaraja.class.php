@@ -34,10 +34,8 @@ class modMpesadaraja extends DolibarrModules
 			'tpl' => 0,
 			'barcode' => 0,
 			'models' => 0,
-			'css' => array('/mpesadaraja/css/supermarket.css'),
-			'js' => array('/mpesadaraja/js/supermarket.js'),
 			'hooks' => array(
-				'data' => array('takepospay', 'takeposinvoice', 'takeposfrontend'),
+				'data' => array('takepospay', 'takeposinvoice'),
 				'entity' => '0'
 			)
 		);

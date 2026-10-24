@@ -1133,3 +1133,202 @@ html {
 }
 
 <?php } ?>
+
+/* Supermarket cashier layout */
+body.bodytakepos {
+	background: #f1f4f7;
+	color: #17212b;
+}
+
+body.bodytakepos .header {
+	background: #12304a;
+	color: #fff;
+}
+
+body.bodytakepos .topnav-left a,
+body.bodytakepos .topnav .login_block_other a {
+	color: #fff;
+}
+
+body.bodytakepos .topnav-left a:hover:not(.nohover),
+body.bodytakepos .topnav .login_block_other a:hover:not(.nohover) {
+	background: #244d6b;
+	color: #fff;
+}
+
+body.bodytakepos .topnav-right #search,
+body.bodytakepos .input-search-takepos {
+	box-sizing: border-box;
+	width: min(42vw, 600px) !important;
+	min-height: 48px;
+	padding: 8px 14px;
+	border: 2px solid #1976b9;
+	border-radius: 8px;
+	background: #fff;
+	color: #17212b;
+	font-size: 19px !important;
+	font-weight: 600;
+}
+
+body.bodytakepos .row1withhead {
+	height: calc(48% - 50px);
+	padding-top: 8px;
+}
+
+body.bodytakepos .row1:not(.row1withhead) {
+	height: 43%;
+}
+
+body.bodytakepos .row2withhead {
+	height: 52%;
+}
+
+body.bodytakepos .row2:not(.row2withhead) {
+	height: 57%;
+}
+
+body.bodytakepos .div1 {
+	width: 50%;
+	border: 1px solid #d8e0e7;
+	border-radius: 10px;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(18, 48, 74, 0.08);
+}
+
+body.bodytakepos .div2 {
+	width: 20%;
+	padding: 8px;
+}
+
+body.bodytakepos .div3 {
+	width: 30%;
+	padding: 8px;
+	overflow-y: auto;
+}
+
+body.bodytakepos .div4 {
+	width: 18%;
+}
+
+body.bodytakepos .div5 {
+	width: 82%;
+}
+
+body.bodytakepos .div5.centpercent {
+	width: 100%;
+}
+
+body.bodytakepos .div1 table {
+	font-size: 16px;
+}
+
+body.bodytakepos .div1 td,
+body.bodytakepos .div1 th {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+body.bodytakepos .div2 button.calcbutton,
+body.bodytakepos .div2 button.calcbutton2 {
+	min-height: 58px;
+	border-radius: 8px;
+	font-size: 17px;
+}
+
+body.bodytakepos .div3 button.actionbutton {
+	width: calc(50% - 8px);
+	min-height: 54px;
+	margin: 3px;
+	border-radius: 8px;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+body.bodytakepos .div4 .wrapper,
+body.bodytakepos .div5 .wrapper2 {
+	border: 1px solid #d8e0e7;
+	border-radius: 8px;
+	background: #fff;
+}
+
+body.bodytakepos .div5 .wrapper2 {
+	width: 16.666%;
+	height: 33.333%;
+}
+
+body.bodytakepos .div5 .wrapper2:not(.divempty):hover {
+	border-color: #1976b9;
+	box-shadow: 0 2px 8px rgba(18, 48, 74, 0.16);
+}
+
+@media screen and (max-width: 1024px) and (min-width: 768px) {
+	body.bodytakepos .div1 {
+		width: 46%;
+	}
+
+	body.bodytakepos .div2 {
+		width: 24%;
+	}
+
+	body.bodytakepos .div3 {
+		width: 30%;
+	}
+
+	body.bodytakepos .div4 {
+		width: 22%;
+	}
+
+	body.bodytakepos .div5 {
+		width: 78%;
+	}
+
+	body.bodytakepos .div5 .wrapper2 {
+		width: 20%;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	body.bodytakepos {
+		overflow: auto !important;
+	}
+
+	body.bodytakepos .topnav-right #search,
+	body.bodytakepos .input-search-takepos {
+		width: min(70vw, 520px) !important;
+		min-height: 44px;
+		font-size: 17px !important;
+	}
+
+	body.bodytakepos .row1,
+	body.bodytakepos .row1withhead,
+	body.bodytakepos .row2,
+	body.bodytakepos .row2withhead {
+		height: auto;
+	}
+
+	body.bodytakepos .div1,
+	body.bodytakepos .div2,
+	body.bodytakepos .div3,
+	body.bodytakepos .div4,
+	body.bodytakepos .div5 {
+		width: 100%;
+	}
+
+	body.bodytakepos .div1 {
+		min-height: 260px;
+	}
+
+	body.bodytakepos .div2,
+	body.bodytakepos .div3 {
+		min-height: 220px;
+	}
+
+	body.bodytakepos .div5 .wrapper2 {
+		width: 50%;
+		height: 68px;
+	}
+
+	body.bodytakepos .div3 button.actionbutton {
+		min-height: 48px;
+	}
+}
