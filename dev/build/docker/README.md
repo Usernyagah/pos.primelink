@@ -50,9 +50,9 @@ To delete processes:
 
 ## Build and publish a self-contained image
 
-From the root of your Dolibarr source checkout, build and publish the application image:
+From the root of your Dolibarr source checkout, build and publish the application image. The root-level `Dockerfile` is also detected automatically by deployment platforms that build from the repository root:
 
-	docker build -f dev/build/docker/Dockerfile.release -t ghcr.io/usernyagah/pos.primelink:25.0.0-alpha htdocs
+	docker build -t ghcr.io/usernyagah/pos.primelink:25.0.0-alpha .
 	docker push ghcr.io/usernyagah/pos.primelink:25.0.0-alpha
 
 Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately.

@@ -1,0 +1,15 @@
+.git
+.agents
+.github
+.phan
+.tx
+dev
+doc
+documents
+scripts
+test
+htdocs/conf/conf.php
+htdocs/conf/conf.php.old
+htdocs/conf/conf.php.sav
+htdocs/conf/conf.php.back
+htdocs/install/install.forced.php

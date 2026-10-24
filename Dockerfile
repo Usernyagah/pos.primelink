@@ -34,7 +34,7 @@ RUN apt-get update \
 	&& sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY --chown=www-data:www-data . /var/www/html/
+COPY --chown=www-data:www-data htdocs/ /var/www/html/
 
 RUN mkdir -p /var/www/documents \
 	&& chown www-data:www-data /var/www/documents /var/www/html/conf
