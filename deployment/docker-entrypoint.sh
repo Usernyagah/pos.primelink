@@ -31,11 +31,21 @@ $settings['DOLI_DB_PREFIX'] = getenv('DOLI_DB_PREFIX') ?: 'llx_';
 $settings['DOLI_DB_PORT'] = getenv('DOLI_DB_PORT') ?: ($settings['DOLI_DB_TYPE'] === 'mysqli' ? '3306' : '5432');
 $settings['DOLI_URL_ROOT'] = getenv('DOLI_URL_ROOT') ?: '';
 
-if (!in_array($settings['DOLI_DB_TYPE'], array('pgsql', 'mysqli'), true)
-	|| !ctype_digit($settings['DOLI_DB_PORT'])
-	|| !preg_match('/^[a-z0-9]+_$/i', $settings['DOLI_DB_PREFIX'])
-	|| !preg_match('/^[a-f0-9]{64}$/i', $settings['DOLI_INSTANCE_UNIQUE_ID'])) {
-	file_put_contents('php://stderr', "ERROR: invalid database type, port, prefix, or instance ID in Dolibarr environment settings.\n");
+$invalidSettings = array();
+if (!in_array($settings['DOLI_DB_TYPE'], array('pgsql', 'mysqli'), true)) {
+	$invalidSettings[] = 'DOLI_DB_TYPE (must be pgsql or mysqli)';
+}
+if (!ctype_digit($settings['DOLI_DB_PORT'])) {
+	$invalidSettings[] = 'DOLI_DB_PORT (must contain digits only)';
+}
+if (!preg_match('/^[a-z0-9]+_$/i', $settings['DOLI_DB_PREFIX'])) {
+	$invalidSettings[] = 'DOLI_DB_PREFIX (must be letters/digits followed by an underscore)';
+}
+if (!preg_match('/^[a-f0-9]{64}$/i', $settings['DOLI_INSTANCE_UNIQUE_ID'])) {
+	$invalidSettings[] = 'DOLI_INSTANCE_UNIQUE_ID (must be 64 hexadecimal characters)';
+}
+if (!empty($invalidSettings)) {
+	file_put_contents('php://stderr', "ERROR: invalid Dolibarr environment settings: ".implode('; ', $invalidSettings).".\n");
 	exit(1);
 }
 
