@@ -48,6 +48,15 @@ To delete processes:
 	docker compose kill stop
 
 
+## Build and publish a self-contained image
+
+From the root of your Dolibarr source checkout, build and publish the application image:
+
+	docker build -f dev/build/docker/Dockerfile.release -t ghcr.io/usernyagah/pos.primelink:25.0.0-alpha htdocs
+	docker push ghcr.io/usernyagah/pos.primelink:25.0.0-alpha
+
+Log in to GitHub Container Registry with a token that has `write:packages` permission before publishing. The image contains the Dolibarr application source; database configuration is completed through the installer at `/install/`. Mount persistent volumes at `/var/www/html/conf` and `/var/www/documents`, and provide a supported database separately.
+
 ## For a more robust or a production usage
 
 If you want to execute an official Docker package, you can find it and read the doc on 
