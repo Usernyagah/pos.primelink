@@ -131,11 +131,11 @@ if (getDolGlobalInt('TAKEPOS_COLOR_THEME') == 1) {
 
 
 // Title
-$title = 'TakePOS - Dolibarr '.DOL_VERSION;
+$title = 'TakePOS - '.DOL_APPLICATION_TITLE.' '.DOL_VERSION;
 if (getDolGlobalString('MAIN_APPLICATION_TITLE')) {
 	$title = 'TakePOS - ' . getDolGlobalString('MAIN_APPLICATION_TITLE');
 }
-$head = '<meta name="apple-mobile-web-app-title" content="TakePOS"/>
+$head = '<meta name="apple-mobile-web-app-title" content="'.dol_escape_htmltag(DOL_APPLICATION_TITLE).'"/>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>';
