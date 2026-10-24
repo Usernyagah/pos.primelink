@@ -12,11 +12,16 @@ if [ -e "$conf_file" ] && [ ! -f "$conf_file" ]; then
 	exit 1
 fi
 
-if [ ! -e "$conf_file" ]; then
-	install -o www-data -g www-data -m 0640 /dev/null "$conf_file"
-else
-	chown www-data:www-data "$conf_file"
-	chmod u+rw "$conf_file"
+if [ ! -e "$conf_file" ] || [ "$(wc -c < "$conf_file")" -le 8 ]; then
+	cat > "$conf_file" <<'EOF'
+<?php
+$dolibarr_main_url_root='';
+$dolibarr_main_document_root='/var/www/html';
+$dolibarr_main_data_root='/var/www/documents';
+EOF
 fi
+
+chown www-data:www-data "$conf_file"
+chmod u+rw "$conf_file"
 
 exec docker-php-entrypoint "$@"
